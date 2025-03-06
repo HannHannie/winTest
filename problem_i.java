@@ -15,51 +15,63 @@ Documentation & Testing: Include unit tests that cover typical and edge-case sce
 nếu là dấu phẩy thì skip, nếu là hexadecimal thì convert*/
 /* check xem trong chuỗi đó có chữ thuộc A->F không, nếu có thì convert String đó thành hệ thập phân */
 import java.util.*;
+
 public class problem_i {
-    public static void convert(char[] arr){
-        int n= arr.length;
+    public static void convert(char[] arr) {
+        int n = arr.length;
+        boolean isHexa = false;
+        boolean isNegative = false;
         StringBuilder numStr = new StringBuilder();
-        //isHexa?
-        boolean isHexa= false;
-        for(int check= 0; check< n; check++){
-            char c= arr[check];
-            if(!Character.isDigit(check) && (check>='A' && check<='F')){
-                isHexa= true;
-                break;
-            } else throw new IllegalArgumentException("The input contains invalid the character");
+
+        // Kiểm tra nếu có dấu '-' ở đầu thì đánh dấu là số âm
+        int startIndex = 0;
+        if (arr[0] == '-') {
+            isNegative = true;
+            startIndex = 1; // Bỏ qua dấu '-' khi xử lý
         }
-        if(!isHexa){
-            for(int i=0; i< n; i++){ //i is index
-                char c1= arr[i];
-                if (Character.isDigit(c1) && (c1>=0 && c1<=9)){
-                    numStr.append(c1);
-                }
-            }
-        } else { //isHexa
-            for(int i=0; i< n; i++){ //i is index
-                char c2= arr[i];
-                if (c2>='A' && c2<='F'){
-                    numStr.append(c2);
-                }
+
+        // Kiểm tra và xử lý từng ký tự
+        for (int i = startIndex; i < n; i++) {
+            char c = arr[i];
+
+            if (c == ',') {
+                continue; // Bỏ qua dấu phẩy
+            } else if (Character.isDigit(c)) {
+                numStr.append(c);
+            } else if (c >= 'A' && c <= 'F') {
+                isHexa = true;
+                numStr.append(c);
+            } else {
+                throw new IllegalArgumentException("Input contains an invalid character: " + c);
             }
         }
 
-        int out = 0;
-        if(isHexa){
-            out = Integer.parseInt(numStr.toString(), 16); 
+        // Kiểm tra xem có số hợp lệ không
+        if (numStr.length() == 0) {
+            throw new IllegalArgumentException("No valid number found in input.");
         }
-        else if (!isHexa){
+
+        // Chuyển đổi chuỗi số thành số nguyên
+        int out;
+        if (isHexa) {
+            out = Integer.parseInt(numStr.toString(), 16);
+        } else {
             out = Integer.parseInt(numStr.toString());
         }
-        
-        System.out.println("Converted number: " + out);    
+
+        // Nếu có dấu '-', chuyển sang số âm
+        if (isNegative) {
+            out = -out;
+        }
+
+        System.out.print(out);
     }
 
     public static void main(String[] args) {
-        Scanner sc= new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
         System.out.println("Input: ");
-        String input= sc.nextLine();
-        char[] numArr= input.toCharArray(); //convert String into Char Array
+        String input = sc.nextLine();
+        char[] numArr = input.toCharArray(); // Convert String thành Char Array
         System.out.println("Output: ");
         convert(numArr);
         sc.close();
