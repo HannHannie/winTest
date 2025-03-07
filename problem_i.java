@@ -1,8 +1,8 @@
 /*Suppose we have loaded an array with the digits of an integer, where the highest power is kept in position 0,
 next highest in position 1, and so on.
 The ones position is always at position array.Length - 1:
-Example input: 2025
- Example output: 2, 0, 2, 5
+Example output: 2025
+ Example input: 2, 0, 2, 5
 Validation: Verify that every element is a valid digit (0–9). If not, handle the error appropriately (e.g., throw
 an exception or return an error code).
 Negative Numbers: Extend the function so that an optional sign (e.g., a leading -) can be interpreted
